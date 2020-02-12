@@ -1,0 +1,2 @@
+deb  [ allow-insecure=yes ] http://http.us.debian.org/debian testing main non-free contrib
+deb-src  [ allow-insecure=yes ] http://http.us.debian.org/debian testing main non-free contrib

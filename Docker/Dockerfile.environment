@@ -7,14 +7,9 @@ RUN apt-get update -q && \
     apt-get autoclean && \
     apt-get clean
 
-# Build GDAL 2.4.3
-RUN cd /usr/local/src && \
-    wget -k 'https://download.osgeo.org/gdal/2.4.3/gdal-2.4.3.tar.gz' && \
-    wget -k 'https://download.osgeo.org/proj/proj-4.9.3.tar.gz' && \
-    tar axvf gdal-2.4.3.tar.gz && tar axvf proj-4.9.3.tar.gz && \
-    cd proj-4.9.3 && ./configure --prefix=/usr/local && nice -n 19 make -j33 && make install && \
-    cd ../gdal-2.4.3 && ./configure --prefix=/usr/local && nice -n 19 make -j33 && make install && \
-    cd .. && rm -r proj-4.9.3/ gdal-2.4.3/ proj-4.9.3.tar.gz gdal-2.4.3.tar.gz
+# Build GDAL 3.0.4
+COPY unstable.list  /etc/apt/sources.list.d/
+RUN apt-get update -q && apt-get install -y -q --allow-unauthenticated libgdal-dev=3.0.4+dfsg-1
 
 # Test data
 RUN wget 'https://download.osgeo.org/geotiff/samples/usgs/c41078a1.tif' -k -O /tmp/c41078a1.tif

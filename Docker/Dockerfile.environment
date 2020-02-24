@@ -7,8 +7,9 @@ RUN apt-get update -q && \
     apt-get autoclean && \
     apt-get clean
 
+# Build GDAL 3.0.4
 COPY unstable.list  /etc/apt/sources.list.d/
-RUN apt-get update -q && apt-get install -y -q --allow-unauthenticated libopenjp2-7 libopenjp2-7-dev libopenjp2-tools libgdal-dev=3.0.4+dfsg-1
+RUN apt-get update -q && apt-get install -y -q --allow-unauthenticated libgdal-dev=3.0.4+dfsg-1
 
 # Test data
 RUN wget 'https://download.osgeo.org/geotiff/samples/usgs/c41078a1.tif' -k -O /tmp/c41078a1.tif

@@ -5,7 +5,7 @@ LDFLAGS ?= $(shell pkg-config gdal --libs) -L$(shell pwd) -lgdalwarp_bindings -l
 BOOST_ROOT ?= /usr/include
 SO ?= so
 
-all: rawthread wrapthread pattern oversubscribe metadata
+all: rawthread wrapthread pattern pattern_jp2k oversubscribe metadata
 
 ../../libgdalwarp_bindings.$(SO):
 	$(MAKE) -C ../.. libgdalwarp_bindings.$(SO)
@@ -22,6 +22,9 @@ wrapthread: wrapthread.o libgdalwarp_bindings.$(SO)
 pattern: pattern.o libgdalwarp_bindings.$(SO)
 	$(CC) $< $(LDFLAGS) -o $@
 
+pattern_jp2k: pattern_jp2k.o libgdalwarp_bindings.$(SO)
+	$(CC) $< $(LDFLAGS) -o $@
+
 oversubscribe: oversubscribe.o libgdalwarp_bindings.$(SO)
 	$(CC) $< $(LDFLAGS) -o $@
 
@@ -35,6 +38,6 @@ clean:
 	rm -f *.o  libgdalwarp_bindings.$(SO)
 
 cleaner: clean
-	rm -f rawthread wrapthread pattern oversubscribe metadata
+	rm -f rawthread wrapthread pattern pattern_jp2k oversubscribe metadata
 
 cleanest: cleaner

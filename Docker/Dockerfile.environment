@@ -1,76 +1,15 @@
 FROM jamesmcclain/crossbuild:0
 LABEL maintainer="James McClain <james.mcclain@gmail.com>"
 
-ENV ROOTDIR /usr/local
-ENV LD_LIBRARY_PATH /usr/local/lib
-ENV GDAL_VERSION 2.4.4
-ENV OPENJPEG_VERSION 2.3.0
-
 RUN apt-get update -q && \
     apt-get install build-essential pkg-config openjdk-8-jdk -y -q && \
     apt-get autoremove && \
     apt-get autoclean && \
     apt-get clean
 
-# Load assets
-WORKDIR $ROOTDIR/
-RUN mkdir -p $ROOTDIR/src
-
-RUN wget -qO- \
-    http://download.osgeo.org/gdal/${GDAL_VERSION}/gdal-${GDAL_VERSION}.tar.gz | \
-    tar -xzC $ROOTDIR/src/
-RUN wget -qO- \
-    https://github.com/uclouvain/openjpeg/archive/v${OPENJPEG_VERSION}.tar.gz | \
-    tar -xzC $ROOTDIR/src/
-
-RUN set -ex \
-    # Runtime dependencies
-    && deps=" \
-       python-dev \
-       python3-dev \
-       python-numpy \
-       python3-numpy \
-       bash-completion \
-       libspatialite-dev \
-       libpq-dev \
-       libcurl4-gnutls-dev \
-       libproj-dev \
-       libxml2-dev \
-       libgeos-dev \
-       libnetcdf-dev \
-       libpoppler-dev \
-       libhdf4-alt-dev \
-       libhdf5-serial-dev \
-    " \
-    # Build dependencies
-    && buildDeps=" \
-       build-essential \
-       cmake \
-       swig \
-       ant \
-       pkg-config \
-    "\
-    && apt-get update && apt-get install -y $buildDeps $deps --no-install-recommends \
-    # Compile and install OpenJPEG
-    && cd src/openjpeg-${OPENJPEG_VERSION} \
-    && mkdir build && cd build \
-    && cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$ROOTDIR \
-    && make -j3 && make -j3 install && make -j3 clean \
-    && cd $ROOTDIR && rm -Rf src/openjpeg* \
-    # Compile and install GDAL
-    && cd src/gdal-${GDAL_VERSION} \
-    && ./configure --with-python --with-spatialite --with-pg --with-curl --with-java=$JAVA_HOME \
-                   --with-poppler --with-openjpeg=$ROOTDIR \
-    && make -j3 && make -j3 install && ldconfig \
-    # Compile Python and Java bindings for GDAL
-    && cd $ROOTDIR/src/gdal-${GDAL_VERSION}/swig/java && make -j3 && make -j3 install \
-    && cd $ROOTDIR/src/gdal-${GDAL_VERSION}/swig/python \
-    && python3 setup.py build \
-    && python3 setup.py install \
-    && cd $ROOTDIR && rm -Rf src/gdal* \
-    # Remove build dependencies
-    && apt-get purge -y --auto-remove $buildDeps \
-    && rm -rf /var/lib/apt/lists/*
+# Build GDAL 2.4.4
+COPY unstable.list  /etc/apt/sources.list.d/
+RUN apt-get update -q && apt-get install -y -q --allow-unauthenticated libopenjp2-7 libopenjp2-7-dev libopenjp2-tools libgdal-dev
 
 # Test data
 RUN wget 'https://download.osgeo.org/geotiff/samples/usgs/c41078a1.tif' -k -O /tmp/c41078a1.tif

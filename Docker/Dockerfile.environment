@@ -3,7 +3,7 @@ LABEL maintainer="James McClain <james.mcclain@gmail.com>"
 
 ENV ROOTDIR /usr/local
 ENV LD_LIBRARY_PATH /usr/local/lib
-ENV GDAL_VERSION 2.4.5
+ENV GDAL_VERSION 2.4.4
 ENV OPENJPEG_VERSION 2.3.0
 
 RUN apt-get update -q && \

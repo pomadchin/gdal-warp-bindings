@@ -20,8 +20,11 @@ docker run -it --rm \
 # rm -f src/com_azavea_gdal_GDALWarp.h
 # rm -f src/experiments/thread/oversubscribe src/experiments/thread/pattern
 
+# s3://geotrellis-test/daunnc/B08.jp2
+# /vsis3/geotrellis-test/daunnc/B08.jp2
+# gdalinfo /vsis3/geotrellis-test/daunnc/B08.jp2
 # docker run -it --rm \
 #       -v $(pwd):/workdir \
 #       -e CC=gcc -e CXX=g++ \
 #       -e JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64" \
-#       jamesmcclain/gdal-build-environment:4
+#       daunnc/gdalwarpenv:0.11 bash

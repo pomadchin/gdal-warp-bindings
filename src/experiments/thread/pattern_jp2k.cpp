@@ -64,17 +64,17 @@ int cache_size = 1 << 8;
 
 void *reader(void *argv1)
 {
-    auto g = std::mt19937(std::random_device{}());
-    auto dist = std::uniform_int_distribution<int>(0, 999);
-    char *buf = static_cast<char *>(malloc(BUFFERSIZE));
-    double transform[6];
-    int scratch1, scratch2;
-    int src_window[4] = {0, 0, DIM, DIM};
-    int dst_window[2] = {DIM, DIM};
-
     for (int k = 0; k < (1 << lg_steps); ++k)
     {
         uint64_t token;
+
+        auto g = std::mt19937(std::random_device{}());
+        auto dist = std::uniform_int_distribution<int>(0, 999);
+        char *buf = static_cast<char *>(malloc(BUFFERSIZE));
+        double transform[6];
+        int scratch1, scratch2;
+        int src_window[4] = {0, 0, DIM, DIM};
+        int dst_window[2] = {DIM, DIM};
 
         switch (dist(g))
         {

@@ -95,6 +95,8 @@ void *reader(void *argv1)
 
         get_crs_wkt(token, locked_dataset::SOURCE, ATTEMPTS, COPIES, actual_chars, N);
 
+        fprintf(stdout, ANSI_COLOR_BLUE "src = %s\n" ANSI_COLOR_RESET, actual_chars);
+
         int src_window[4] = {0, 0, width, height};
         int dst_window[2] = {width, height};
 

@@ -88,6 +88,8 @@ void *reader(void *argv1)
             token = get_token(static_cast<const char *>(argv1), options);
         }
 
+        fprintf(stdout, "argv1 = %s", static_cast<const char *>(argv1));
+
         get_crs_wkt(token, token % 2, ATTEMPTS, COPIES, buf, BUFFERSIZE);
         get_crs_proj4(token, token % 2, ATTEMPTS, COPIES, buf, BUFFERSIZE);
         get_band_nodata(token, token % 2, ATTEMPTS, COPIES, 1, transform, &scratch1);

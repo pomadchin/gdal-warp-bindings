@@ -16,15 +16,26 @@ docker run -it --rm \
       -e JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64" \
       jamesmcclain/gdal-build-environment:4 make -j4 -C src/experiments/thread pattern oversubscribe pattern_jp2k || exit -1
 
-# rm -f $(find | grep '\.\(o\|obj\|dylib\|dll\|so\|class\)$')
-# rm -f src/com_azavea_gdal_GDALWarp.h
-# rm -f src/experiments/thread/oversubscribe src/experiments/thread/pattern
+rm -f $(find | grep '\.\(o\|obj\|dylib\|dll\|so\|class\)$')
+rm -f src/com_azavea_gdal_GDALWarp.h
+rm -f src/experiments/thread/oversubscribe src/experiments/thread/pattern src/experiments/thread/pattern_jp2k
 
 # s3://geotrellis-test/daunnc/B08.jp2
 # /vsis3/geotrellis-test/daunnc/B08.jp2
 # gdalinfo /vsis3/geotrellis-test/daunnc/B08.jp2
-# docker run -it --rm \
-#       -v $(pwd):/workdir \
-#       -e CC=gcc -e CXX=g++ \
-#       -e JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64" \
-#       daunnc/gdalwarpenv:0.11 bash
+
+# $ cd src/experiments/thread/
+# 1 is the size of a cache below
+# $ ./pattern_jp2k /vsis3/geotrellis-test/daunnc/B08.jp2 100 1000 1
+# or if you want to try gdb 
+# it can be useful if you want to see how many threads were spawned
+# and that application is not in a deadlock
+# $ gdb pattern
+# $ run /tmp/c41078a1.tif 100 1000 1
+docker run -it --rm \
+      --cpus 8 \
+      -v $(pwd):/workdir \
+      -v ~/.aws:/root/.aws \
+      -e CC=gcc -e CXX=g++ \
+      -e JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64" \
+      daunnc/gdalwarpenv:0.11 bash

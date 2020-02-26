@@ -70,11 +70,6 @@ void *reader(void *argv1)
 
         auto g = std::mt19937(std::random_device{}());
         auto dist = std::uniform_int_distribution<int>(0, 999);
-        char *buf = static_cast<char *>(malloc(BUFFERSIZE));
-        double transform[6];
-        int scratch1, scratch2;
-        int src_window[4] = {0, 0, DIM, DIM};
-        int dst_window[2] = {DIM, DIM};
 
         switch (dist(g))
         {
@@ -90,11 +85,21 @@ void *reader(void *argv1)
 
         fprintf(stdout, "argv1 = %s", static_cast<const char *>(argv1));
 
-        get_crs_wkt(token, token % 2, ATTEMPTS, COPIES, buf, BUFFERSIZE);
-        get_crs_proj4(token, token % 2, ATTEMPTS, COPIES, buf, BUFFERSIZE);
-        get_band_nodata(token, token % 2, ATTEMPTS, COPIES, 1, transform, &scratch1);
-        get_width_height(token, token % 2, ATTEMPTS, COPIES, &scratch1, &scratch2);
-        fprintf(stdout, ANSI_COLOR_BLUE "witdth, height = %d, %d\n" ANSI_COLOR_RESET, scratch1, scratch2);
+        int width = -1;
+        int height = -1;
+        get_width_height(token, locked_dataset::SOURCE, ATTEMPTS, COPIES, &width, &height);
+        fprintf(stdout, ANSI_COLOR_BLUE "witdth, height = %d, %d\n" ANSI_COLOR_RESET, width, height);
+
+        constexpr int N = 1 << 10;
+        char actual_chars[N];
+
+        get_crs_wkt(token, locked_dataset::SOURCE, ATTEMPTS, COPIES, actual_chars, N);
+
+        int src_window[4] = {0, 0, width, height};
+        int dst_window[2] = {width, height};
+
+        uint8_t *buf = new uint8_t[width * height];
+    
         get_data(token, token % 2, ATTEMPTS, 0, COPIES, src_window, dst_window, 1, 1 /* GDT_Byte */, buf);
     }
 

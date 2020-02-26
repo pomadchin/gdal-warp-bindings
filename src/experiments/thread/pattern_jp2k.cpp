@@ -83,19 +83,19 @@ void *reader(void *argv1)
             token = get_token(static_cast<const char *>(argv1), options);
         }
 
-        fprintf(stdout, "argv1 = %s", static_cast<const char *>(argv1));
+        // fprintf(stdout, "argv1 = %s", static_cast<const char *>(argv1));
 
         int width = -1;
         int height = -1;
         get_width_height(token, locked_dataset::SOURCE, ATTEMPTS, COPIES, &width, &height);
-        fprintf(stdout, ANSI_COLOR_BLUE "witdth, height = %d, %d\n" ANSI_COLOR_RESET, width, height);
+        // fprintf(stdout, ANSI_COLOR_BLUE "witdth, height = %d, %d\n" ANSI_COLOR_RESET, width, height);
 
         constexpr int N = 1 << 10;
         char actual_chars[N];
 
         get_crs_wkt(token, locked_dataset::SOURCE, ATTEMPTS, COPIES, actual_chars, N);
 
-        fprintf(stdout, ANSI_COLOR_BLUE "src = %s\n" ANSI_COLOR_RESET, actual_chars);
+        // fprintf(stdout, ANSI_COLOR_BLUE "src = %s\n" ANSI_COLOR_RESET, actual_chars);
 
         int src_window[4] = {0, 0, width, height};
         int dst_window[2] = {width, height};

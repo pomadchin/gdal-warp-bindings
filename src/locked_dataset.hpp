@@ -23,6 +23,7 @@
 typedef _locale_t locale_t;
 #endif
 
+#include <iostream>
 #include <cassert>
 #include <cstring>
 
@@ -580,6 +581,11 @@ public:
             type,                         // destination type
             0, 0                          // stride
         );
+
+       std::cout << "~~~~~~~~~~" << std::endl;
+       std::cout << retval << std::endl;
+       std::cout << "~~~~~~~~~~" << std::endl;
+
         UNLOCK
 
         if (retval == CE_None)
@@ -588,6 +594,10 @@ public:
         }
         else
         {
+            std::cout << "~~~~FAILURE~~~~~" << std::endl;
+            std::cout << retval << std::endl;
+            std::cout << CPLGetLastErrorMsg() << std::endl;
+            std::cout << "~~~FAILURE~~~~" << std::endl;
             FAILURE
         }
     }

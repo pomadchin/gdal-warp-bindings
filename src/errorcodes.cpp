@@ -23,7 +23,7 @@
 #include <map>
 
 #include <gdal.h>
-
+#include <fstream>
 #include <pthread.h>
 
 #if defined(__linux__)
@@ -143,6 +143,15 @@ const char *error_string(int err_no)
  */
 void put_last_errno(CPLErr eErrClass, int err_no, const char *msg)
 {
+
+  std::ofstream outfile;
+  outfile.open("/tmp/logs.txt", std::ios_base::app); // append instead of overwrite
+  outfile << "=============";
+  outfile << reported_errors.load();
+  outfile << severity_string_nonansi(eErrClass);
+  outfile << error_string(err_no);
+  outfile << msg;
+  outfile << "=============";
 
   fprintf(stdout, "=============");
   fprintf(stdout, "[%d] %s %s %s \n", reported_errors.load(), severity_string_nonansi(eErrClass), error_string(err_no), msg);

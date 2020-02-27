@@ -29,6 +29,7 @@ typedef _locale_t locale_t;
 
 #include <atomic>
 #include <limits>
+#include <fstream>
 
 #include <pthread.h>
 

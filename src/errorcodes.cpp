@@ -157,12 +157,12 @@ void put_last_errno(CPLErr eErrClass, int err_no, const char *msg)
     reported_errors++;
     if (getenv("GDALWARP_NONANSI_MESSAGES") == nullptr)
     {
-      fprintf(stderr, ANSI_COLOR_BLACK ANSI_COLOR_BGMAGENTA "[%d of %d]" ANSI_COLOR_RESET " %s %s %s " ANSI_COLOR_RESET "\n",
+      fprintf(stdout, ANSI_COLOR_BLACK ANSI_COLOR_BGMAGENTA "[%d of %d]" ANSI_COLOR_RESET " %s %s %s " ANSI_COLOR_RESET "\n",
               reported_errors.load(), max_reported_errors, severity_string(eErrClass), error_string(err_no), msg);
     }
     else
     {
-      fprintf(stderr, "[%d of %d] %s %s %s \n",
+      fprintf(stdout, "[%d of %d] %s %s %s \n",
               reported_errors.load(), max_reported_errors, severity_string_nonansi(eErrClass), error_string(err_no), msg);
     }
   }

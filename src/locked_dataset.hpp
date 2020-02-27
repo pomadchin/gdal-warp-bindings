@@ -582,22 +582,22 @@ public:
             0, 0                          // stride
         );
 
-       std::cout << "~~~~~~~~~~" << std::endl;
-       std::cout << retval << std::endl;
-       std::cout << "~~~~~~~~~~" << std::endl;
-
-        UNLOCK
+       // std::cout << "~~~~~~~~~~" << std::endl;
+       // std::cout << retval << std::endl;
+       // std::cout << "~~~~~~~~~~" << std::endl;
 
         if (retval == CE_None)
         {
+            UNLOCK
             SUCCESS
         }
         else
         {
+            UNLOCK
             std::cout << "~~~~FAILURE~~~~~" << std::endl;
             std::cout << retval << std::endl;
             std::cout << CPLGetLastErrorMsg() << std::endl;
-            std::cout << "~~~FAILURE~~~~" << std::endl;
+            std::cout << "~~~~~FAILURE~~~~" << std::endl;
             FAILURE
         }
     }

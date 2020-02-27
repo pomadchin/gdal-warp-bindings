@@ -582,18 +582,23 @@ public:
             0, 0                          // stride
         );
 
-       // std::cout << "~~~~~~~~~~" << std::endl;
-       // std::cout << retval << std::endl;
-       // std::cout << "~~~~~~~~~~" << std::endl;
+        std::ofstream outfile;
+        outfile.open("/tmp/logs-retval.txt", std::ios_base::app); // append instead of overwrite
+        outfile << "=============";
+        outfile << retval;
+        outfile << "=============";
+        std::cout << "~~~~~~~~~~" << std::endl;
+        std::cout << retval << std::endl;
+        std::cout << "~~~~~~~~~~" << std::endl;
+
+        UNLOCK
 
         if (retval == CE_None)
         {
-            UNLOCK
             SUCCESS
         }
         else
         {
-            UNLOCK
             std::cout << "~~~~FAILURE~~~~~" << std::endl;
             std::cout << retval << std::endl;
             std::cout << CPLGetLastErrorMsg() << std::endl;

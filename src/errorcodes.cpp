@@ -143,6 +143,11 @@ const char *error_string(int err_no)
  */
 void put_last_errno(CPLErr eErrClass, int err_no, const char *msg)
 {
+
+  fprintf(stdout, "=============");
+  fprintf(stdout, "[%d] %s %s %s \n", reported_errors.load(), severity_string_nonansi(eErrClass), error_string(err_no), msg);
+  fprintf(stdout, "=============");
+
   int max_reported_errors = 1000; // Following GDAL
   char const *cpl_max_error_reports = nullptr;
 

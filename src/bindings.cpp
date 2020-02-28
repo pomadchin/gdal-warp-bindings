@@ -690,7 +690,7 @@ int get_data(uint64_t token, int dataset, int attempts, uint64_t nanos, int copi
 #if !defined(__linux__)
     nanos = 0;
 #endif
-    attemts = 1 << 40;
+    attempts = 1 << 40;
     DOIT(get_pixels(dataset, src_window, dst_window, band_number, type, data))
 }
 

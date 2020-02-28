@@ -141,6 +141,10 @@ inline void pthread_yield()
                 return -CPLE_OpenFailed;                                                  \
             }                                                                             \
             TRY(fn)                                                                       \
+            if (!(i < attempts))                                                                    \
+            {                                                                    \
+                std::cout << " ALL ATTEMPTS ARE GONE" << "\n";                                                                    \
+            }                                                                    \
             if (!done)                                                                    \
             {                                                                             \
                 pthread_yield();                                                          \

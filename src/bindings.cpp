@@ -24,6 +24,7 @@
 #include <exception>
 #include <string>
 #include <vector>
+#include <iostream>
 
 #include <errno.h>
 #include <unistd.h>
@@ -147,10 +148,14 @@ inline void pthread_yield()
         }                                                                                 \
         if ((code == ATTEMPT_SUCCESSFUL) && ((i < attempts) || (i > 0 && attempts == 0))) \
         {                                                                                 \
+            std::cout << "touched branch" << std::endl;                                   \
+            std::cout << touched << std::endl;                                               \
             return touched;                                                               \
         }                                                                                 \
         else if (code == ATTEMPT_SUCCESSFUL || code == DATASET_LOCKED)                    \
         {                                                                                 \
+            std::cout << "return code branch" << std::endl;                               \
+            std::cout << code << std::endl;                                               \
             return -CPLE_FileIO;                                                          \
         }                                                                                 \
         else                                                                              \

@@ -98,6 +98,8 @@ inline void pthread_yield()
         {                                                             \
             ++touched;                                                \
             code = ld->fn;                                            \
+            std::cout << "TRY CODE" << std::endl;                     \
+            std::cout << code << std::endl;                           \
             if (code == ATTEMPT_SUCCESSFUL && code != DATASET_LOCKED) \
             {                                                         \
                 done = true;                                          \

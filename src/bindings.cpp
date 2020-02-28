@@ -155,7 +155,7 @@ inline void pthread_yield()
         else if (code == ATTEMPT_SUCCESSFUL || code == DATASET_LOCKED)                    \
         {                                                                                 \
             std::cout << "return code branch" << std::endl;                               \
-            std::cout << code << std::endl;                                               \
+            std::cout << code << "" << attempts  << "" << done << "\n";                   \
             return -CPLE_FileIO;                                                          \
         }                                                                                 \
         else                                                                              \
